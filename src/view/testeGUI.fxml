@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="200.0" minWidth="500.0" prefHeight="597.0" prefWidth="1069.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Projeto">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#novoProjeto" text="Novo" />
+            <MenuItem mnemonicParsing="false" onAction="#abrir" text="Abrir" />
+            <Menu mnemonicParsing="false" text="Abrir Recente" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#salvar" text="Salvar" />
+            <MenuItem mnemonicParsing="false" onAction="#salvarComo" text="Salvar como" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Encerrar" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Editar">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Ferramentas">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#exportarDiagrama" text="Exportar diagramas" />
+              </items>
+            </Menu>
+        <Menu mnemonicParsing="false" text="Ajuda">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <SplitPane dividerPositions="0.22044088176352705, 0.811623246492986" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TitledPane animated="false" collapsible="false" minHeight="150.0" text="Ferramentas">
+                           <content>
+                              <GridPane>
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Button fx:id="ferramenta_selecao" mnemonicParsing="false" text="Seleção" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Button mnemonicParsing="false" text="Mover" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Button mnemonicParsing="false" text="Escalar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </content>
+                        </TitledPane>
+                        <TitledPane text="Nodes">
+                           <content>
+                              <FlowPane fx:id="displayNodes" hgap="5.0" vgap="5.0" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane text="Conexões">
+                           <content>
+                              <FlowPane fx:id="displayConexoes" hgap="5.0" vgap="5.0" />
+                           </content>
+                        </TitledPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="551.0" prefWidth="498.0" style="-fx-background-color: #000000;">
+               <children>
+                  <TabPane fx:id="displayTabs" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #DDDDDD;" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>                            
+                    </tabs>
+                  </TabPane>
+                  <Button fx:id="botaoAddTab" mnemonicParsing="false" text="+" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="2.0" />
+               </children>
+            </AnchorPane>
+        <AnchorPane prefHeight="551.0" prefWidth="281.0">
+          <children>
+                  <VBox layoutX="34.0" layoutY="71.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="107.0" prefWidth="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                      <TitledPane text="Diagramas" VBox.vgrow="SOMETIMES">
+                           <content>
+                              <ListView fx:id="displayDiagramas" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                      </TitledPane>
+                      <TitledPane text="Propriedades do Node" VBox.vgrow="SOMETIMES">
+                        <content>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" vbarPolicy="ALWAYS">
+                                 <content>
+                                    <VBox fx:id="display_detalhes" maxHeight="1.7976931348623157E308" prefHeight="200.0" spacing="5.0">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane text="Alertas" VBox.vgrow="SOMETIMES">
+                           <content>
+                              <ListView fx:id="displayAlertas" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                      </TitledPane>
+                     </children>
+                  </VBox>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="11.0" fx:id="x3" />
+          </font>
+          <textFill>
+            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
+          </textFill>
+        </Label>
+        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
