@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -15,10 +16,13 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -100,12 +104,15 @@ public class ExportacaoController implements Initializable{
 			
 			diagramas.get(i).render();
 			Rect borda  = diagramas.get(i).getBordas();
+			diagramas.get(i).renderFinal();
 			Image snap = diagramas.get(i).getCanvas().snapshot(null, null);
 			PixelReader reader = snap.getPixelReader();
 			WritableImage newImage = new WritableImage(reader, borda.getX(), borda.getY(), borda.getLargura()+2, borda.getAltura()+2);
 			this.imagens.add(newImage);
+			diagramas.get(i).render();
 		
 		}
+		
 
 		cancelar.setOnAction(e->{
 			Stage stage = (Stage)cancelar.getScene().getWindow();
@@ -113,9 +120,7 @@ public class ExportacaoController implements Initializable{
 		});
 		
 		exportar.setOnAction(e ->{
-			String path = this.mainController.getProjeto().getPath();
-			path = new File(path).getParentFile().getAbsolutePath();
-			this.exportarDiagramas(path);
+			this.exportarDiagramas();
 			Stage stage = (Stage)cancelar.getScene().getWindow();
 			stage.close();
 		});
@@ -139,11 +144,7 @@ public class ExportacaoController implements Initializable{
 		this.atualizarDiagramasExportaveis();
 	}
 	
-	
-	
-	public void exportarDiagramas(String path) {
-		
-		
+	public int exportarDiagramas() {
 		dc.setInitialDirectory(new File(System.getProperty("user.dir")+"/projects"));
 		dc.setTitle("Selecionar Pasta");
 		
@@ -154,12 +155,27 @@ public class ExportacaoController implements Initializable{
 			try {
 				
 				for(int i = 0; i< this.qtdDiagramas; i++) {
+					String nome = "\\"+ diagramas.get(ids.get(i)).getNome()+".png";
+					if(new File(file.getAbsolutePath()+nome).exists()) {
+						Alert alert;
+						alert = new Alert(AlertType.CONFIRMATION);
+						alert.setTitle("Conflito entre arquivos");
+						String mensagem = "Foram indentidicados arquivo(s)\ncom o mesmo(s) nome(s) de alguns de seus diagramas.\n";
+						mensagem += "Continuar o processo irá sobreescrever os arquivos, deseja conbtinuar?";
+						alert.setHeaderText(mensagem);
+						Optional<ButtonType> result = alert.showAndWait();
+						if(result.get() != ButtonType.OK) {
+							return -1;
+						}
+					}
+					break;
+				}
+				for(int i = 0; i< this.qtdDiagramas; i++) {
 					WritableImage image = imagens.get(ids.get(i));
 					String nome = "\\"+ diagramas.get(ids.get(i)).getNome()+".png";
 					ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", new File(file.getAbsolutePath()+nome));
 					//System.out.println(new File(file.getAbsolutePath()+nome).getAbsolutePath());
-				}
-				
+				}	
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -168,6 +184,7 @@ public class ExportacaoController implements Initializable{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}
 }
 

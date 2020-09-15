@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +28,7 @@ public abstract class Node implements Serializable{
 	protected SVG svg;
 	protected TextBox texto;
 	protected List<Ponto> pontosAncoragem;
+	protected boolean isBackground = false;
 
 	
 	
@@ -106,12 +108,51 @@ public abstract class Node implements Serializable{
 			this.background.B = cp.getValue().getBlue();
 			; diagrama.render();
 		});
+		
+		Label largura = new Label("Largura");
+		Label altura = new Label("Altura");
+		Slider slider1 = new Slider();
+		slider1.setMin(10);
+		slider1.setMax(1000);
+		slider1.setValue(getLargura());
+		
+		slider1.valueProperty().addListener(
+				new ChangeListener<Number>() {
+					@Override
+					public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+						node.setLargura(arg2.intValue());
+						diagrama.render();
+						//System.out.println("estou sendo alterado");
+					}
+				}
+		);
+
+		Slider slider2 = new Slider();
+		slider2.setMin(10);
+		slider2.setMax(1000);
+		slider2.setValue(getAltura());
+		
+		slider2.valueProperty().addListener(
+				new ChangeListener<Number>() {
+					@Override
+					public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+						node.setAltura(arg2.intValue());
+						diagrama.render();
+						//System.out.println("estou sendo alterado");
+					}
+				}
+		);
 	
 		display.getChildren().clear();
 		display.getChildren().add(new Label("Texto"));
 		display.getChildren().add(t1);
 		display.getChildren().add(new Label("Cor de fundo"));
 		display.getChildren().add(cp);
+		display.getChildren().add(largura);
+		display.getChildren().add(slider1);
+		display.getChildren().add(altura);
+		display.getChildren().add(slider2);
+		
 		
 	}
 	public void setXY(int x, int y) {
@@ -155,11 +196,13 @@ public abstract class Node implements Serializable{
 	public void setLargura(int largura) {
 		this.rect.setLargura(largura);
 		this.updatePontosAncoragem();
+		this.updateElementos();
 	}
 
 	public void setAltura(int altura) {
 		this.rect.setAltura(altura);
 		this.updatePontosAncoragem();
+		this.updateElementos();
 	}
 
 	public TextBox getTexto() {
@@ -206,6 +249,14 @@ public abstract class Node implements Serializable{
 
 	public void setTexto(TextBox texto) {
 		this.texto = texto;
+	}
+
+	public boolean isBackground() {
+		return isBackground;
+	}
+
+	public void setBackground(boolean isBackground) {
+		this.isBackground = isBackground;
 	}
 		
 

@@ -84,6 +84,8 @@ public class DHT_TarefaOpcional extends Node {
 	public void updateElementos() {
 		super.texto.setxRelativo(this.getX());
 		super.texto.setyRelativo(this.getY());
+		super.texto.setX(this.getLargura()/2);
+		super.texto.setY(this.getAltura()/2);
 	}
 	
 	@Override

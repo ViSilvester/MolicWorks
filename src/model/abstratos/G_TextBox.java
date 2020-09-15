@@ -6,9 +6,11 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import model.Diagrama;
 import model.Node;
@@ -17,6 +19,8 @@ import model.TextBox;
 import model.estrutura.Ponto;
 
 public class G_TextBox extends Node{
+	
+	boolean IsTransparent = false;
 
 	public G_TextBox(int posx, int posy, int largura, int altura, SVG SVGPath) {
 		super(posx, posy, largura, altura, SVGPath);
@@ -24,6 +28,7 @@ public class G_TextBox extends Node{
 		super.setLargura(super.texto.getLargura());
 		super.setAltura(super.texto.getAltura());
 		super.texto.setTextAlingnment(TextAlignment.LEFT);
+		super.texto.setTexto("Texto");
 	}
 
 	@Override
@@ -33,8 +38,12 @@ public class G_TextBox extends Node{
 	
 	@Override
 	public void render(GraphicsContext gc) {
-		super.render(gc);
-		super.texto.render(gc);
+		if(!this.IsTransparent) {
+			gc.setFill(Color.WHITE);
+			gc.fillRect(getX(), getY(), getLargura(), getAltura());
+		}
+			super.render(gc);
+			super.texto.render(gc);
 	}
 	
 	@Override
@@ -46,11 +55,11 @@ public class G_TextBox extends Node{
 	
 	@Override
 	public void injetarDetalhes(Pane display, Diagrama diagrama) {
+		display.getChildren().clear();
 		TextArea t1 = new TextArea(this.texto.getTexto());
 		t1.setMaxHeight(50);
 		t1.setOnKeyTyped(e->{this.texto.setTexto(t1.getText()); diagrama.render();});
 		Node node = this;
-		
 		t1.textProperty().addListener(
 			new ChangeListener<String>() {
 			    @Override
@@ -59,9 +68,20 @@ public class G_TextBox extends Node{
 			    	diagrama.render();
 			    }
 		    });
-		display.getChildren().add(new Label("Descrição"));
-		display.getChildren().add(t1);
 		
+		Label ft = new Label("Fundo Transparente");
+		CheckBox cb = new CheckBox();
+		cb.setSelected(this.IsTransparent);
+		cb.setOnAction(e->{
+			this.IsTransparent = cb.isSelected();
+			diagrama.render();
+		});
+		
+		
+		display.getChildren().add(new Label("Texto"));
+		display.getChildren().add(t1);
+		display.getChildren().add(ft);
+		display.getChildren().add(cb);
 	}
 	
 	public void updatePontosAncoragem() {
@@ -77,6 +97,7 @@ public class G_TextBox extends Node{
 		
 		G_TextBox node = new G_TextBox(this.getX(), this.getY(), this.getLargura(), this.getAltura(), this.svg);
 		node.setTexto(this.getTexto().clone());
+		node.IsTransparent = this.IsTransparent;
 		
 		return node;
 	}

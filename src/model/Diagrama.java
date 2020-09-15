@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import model.abstratos.G_Container;
 import model.estrutura.Cor;
 import model.estrutura.Ponto;
 import model.estrutura.Rect;
@@ -47,12 +48,40 @@ public abstract class Diagrama implements Serializable {
 			gc.strokeLine(0, i, canvas.getWidth(), i);
 		}
 		
-		
+		for(int i=0; i< getNodes().size(); i++) {
+			if(getNodes().get(i).isBackground()) {
+				getNodes().get(i).render(gc);
+			}
+		}
+		for(int i=0; i< getNodes().size(); i++) {
+			if(!getNodes().get(i).isBackground()) {
+				getNodes().get(i).render(gc);
+			}
+		}
 		for(int i=0; i< relacoes.size(); i++) {
 			relacoes.get(i).render(gc);
 		}
+	}
+	
+	public void renderFinal() {
+		
+		GraphicsContext gc = this.canvas.getGraphicsContext2D();
+		
+		gc.setFill(Color.color(this.background.R, this.background.G, this.background.B ));
+		gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+		
 		for(int i=0; i< getNodes().size(); i++) {
-			getNodes().get(i).render(gc);
+			if(getNodes().get(i).isBackground()) {
+				getNodes().get(i).render(gc);
+			}
+		}
+		for(int i=0; i< getNodes().size(); i++) {
+			if(!getNodes().get(i).isBackground()) {
+				getNodes().get(i).render(gc);
+			}
+		}
+		for(int i=0; i< relacoes.size(); i++) {
+			relacoes.get(i).render(gc);
 		}
 	}
 	
@@ -128,6 +157,10 @@ public abstract class Diagrama implements Serializable {
 				minY = nodes.get(i).getY();
 			}
 		}
+		maxX+=10;
+		maxY+=10;
+		minX-=10;
+		minY-=10;
 		
 		if (minX < 0) {
 			minX = 0;

@@ -8,6 +8,7 @@ import model.abstratos.DI_AcessoUbiquo;
 import model.abstratos.DI_Cena;
 import model.abstratos.DI_Fechamento;
 import model.abstratos.DI_ProcessoInterno;
+import model.abstratos.G_Container;
 import model.abstratos.G_TextBox;
 import model.abstratos.DHT_TarefaOpcional;
 import model.abstratos.DHT_Tarefa;
@@ -51,16 +52,20 @@ public class NodeFactory implements Serializable {
 			novoNode = new DI_Abertura(0,0,26,20, factory.buildSVG("DHT_007"));
 			break;
 		case 8:
-			// fechamento
+
 			novoNode = new DI_Fechamento(0,0,27,21, factory.buildSVG("DHT_008"));
 			break;
 		case 9:
-			// fechamento
+			// TarefaOpcional
 			novoNode = new DHT_TarefaOpcional(0,0,120,80, factory.buildSVG("DHT_000"));
 			break;
 		case 10:
-			// fechamento
+			// Caixa de texto
 			novoNode = new G_TextBox(0,0,120,80,factory.buildSVG(""));
+			break;
+		case 11:
+			// container
+			novoNode = new G_Container(0,0,250,250,factory.buildSVG(""));
 			break;
 		default:
 			novoNode = new DHT_Tarefa(0,0,120,80, factory.buildSVG(""));

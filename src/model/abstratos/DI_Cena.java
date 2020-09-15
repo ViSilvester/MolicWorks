@@ -24,9 +24,9 @@ public class DI_Cena extends Node{
 	
 	public DI_Cena(int posx, int posy, int largura, int altura, SVG SVGPath) {
 		super(posx, posy, largura, altura, SVGPath);
-		texto = new TextBox(posx, posy,largura/2,10, "Cena sem nome");
-		descricao = new TextBox(posx, posy, largura/2, texto.getAltura()+10, "Descricao");
-		super.pontosAncoragem.add(new Ponto(posx, posy, largura/2, 0));
+		texto = new TextBox(posx, posy,largura/2, altura/10, "Cena sem nome");
+		descricao = new TextBox(posx, posy, largura/2, altura/2, "Descricao");
+		super.pontosAncoragem.add(new Ponto(posx, posy, (int) (largura/1.5), 0));
 		super.pontosAncoragem.add(new Ponto(posx, posy, largura/2, altura));
 		super.pontosAncoragem.add(new Ponto(posx, posy, 0, altura/2));
 		super.pontosAncoragem.add(new Ponto(posx, posy, largura, altura/2));
@@ -115,6 +115,10 @@ public class DI_Cena extends Node{
 		super.texto.setyRelativo(this.getY());
 		this.descricao.setxRelativo(this.getX());
 		this.descricao.setyRelativo(this.getY());
+		super.texto.setX(this.getLargura()/2);
+		super.texto.setY(this.getAltura()/10);
+		this.descricao.setX(this.getLargura()/2);
+		this.descricao.setY(this.getAltura()/2);
 	}
 	
 	@Override

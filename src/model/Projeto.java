@@ -111,10 +111,12 @@ public class Projeto implements Serializable {
 			}
 			else if (modo.equals("adicionar")) {
 				this.diagramaSelecionado.getCanvas().setCursor(Cursor.CLOSED_HAND);
+				this.limparSelecaoNodes();
 				this.tempRel = null;
 			}
 			else if (modo.equals("conectar")) {
 				this.diagramaSelecionado.getCanvas().setCursor(Cursor.CROSSHAIR);
+				this.limparSelecaoNodes();
 			}
 			this.modo = modo;
 			this.diagramaSelecionado.render();
@@ -145,7 +147,14 @@ public class Projeto implements Serializable {
 			//System.out.println("Canvas Clicado");
 			Node nodeClicado = null;
 			for(int i=0; i< diagramaSelecionado.getNodes().size(); i++) {
-				if (diagramaSelecionado.getNodes().get(i).inArea((int)event.getX(), (int)event.getY())) {
+				if (diagramaSelecionado.getNodes().get(i).isBackground &&
+					diagramaSelecionado.getNodes().get(i).inArea((int)event.getX(), (int)event.getY())) {
+					nodeClicado = diagramaSelecionado.getNodes().get(i);
+				}
+			}
+			for(int i=0; i< diagramaSelecionado.getNodes().size(); i++) {
+				if (!diagramaSelecionado.getNodes().get(i).isBackground &&
+					diagramaSelecionado.getNodes().get(i).inArea((int)event.getX(), (int)event.getY())) {
 					nodeClicado = diagramaSelecionado.getNodes().get(i);
 				}
 			}
@@ -177,7 +186,8 @@ public class Projeto implements Serializable {
 				
 				Node nodeClicado = null;
 				for(int i=0; i< diagramaSelecionado.getNodes().size(); i++) {
-					if (diagramaSelecionado.getNodes().get(i).inArea((int)event.getX(), (int)event.getY())) {
+					if (!diagramaSelecionado.getNodes().get(i).isBackground &&
+						diagramaSelecionado.getNodes().get(i).inArea((int)event.getX(), (int)event.getY())) {
 						nodeClicado = diagramaSelecionado.getNodes().get(i);
 					}
 				}
@@ -197,6 +207,11 @@ public class Projeto implements Serializable {
 						this.diagramaSelecionado.render();
 					}
 				}
+			}
+		}
+		else if(event.getButton() == MouseButton.SECONDARY) {
+			if(this.modo == "conectar") {
+				this.setModo("selecionar");
 			}
 		}
 	}
@@ -239,6 +254,10 @@ public class Projeto implements Serializable {
 		
 		if(this.modo == "selecionarMultiplos") {
 			this.diagramaSelecionado.render();
+			if(!this.nodesSelecionados.isEmpty()) {
+				this.nodesSelecionados.get(nodesSelecionados.size()-1)
+				.injetarDetalhes(this.mainController.display_detalhes, this.diagramaSelecionado);
+			}
 			this.setModo("transicaoSelecionar");
 		}
 		else if(this.modo == "arrastar"){for(int i=0; i< this.nodesSelecionados.size(); i++) {
@@ -306,6 +325,7 @@ public class Projeto implements Serializable {
 				}
 			}
 		}
+		this.nodesSelecionados.clear();
 	}
 	public void excluirDiagrama(String nome) {
 		
@@ -344,7 +364,7 @@ public class Projeto implements Serializable {
 			}
 			
 		}
-		System.out.println("relacoes copiadas: "+ this.relacoesCopiadas.size());
+		//System.out.println("relacoes copiadas: "+ this.relacoesCopiadas.size());
 	}
 	public void colar() {
 		
@@ -373,8 +393,8 @@ public class Projeto implements Serializable {
 			}
 			if(copiar > 1) {
 				this.diagramaSelecionado.getRelacoes().add(r);
-				System.out.println("ponto x "+ r.getPontoOrigem().getXAbsoluto());
-				System.out.println("ponto y "+ r.getPontoOrigem().getYAbsoluto());
+				//System.out.println("ponto x "+ r.getPontoOrigem().getXAbsoluto());
+				//System.out.println("ponto y "+ r.getPontoOrigem().getYAbsoluto());
 			}
 			
 			
@@ -391,4 +411,28 @@ public class Projeto implements Serializable {
 		this.relacaoASerAdicionado = relacaoASerAdicionado;
 	}
 	
+	public List<Node> getNodesSelecionados() {
+		return this.nodesSelecionados;
+	}
+	
+	public List<Node> getNodesCopiados() {
+		return this.nodesCopiados;
+	}
+	
+	public void selecionarTodos() {
+		for(int i=0; i< this.diagramaSelecionado.getNodes().size(); i++) {
+			this.diagramaSelecionado.getNodes().get(i).setSelected(true);
+		}
+		this.nodesSelecionados.clear();
+		this.nodesSelecionados.addAll(this.diagramaSelecionado.getNodes());
+		this.diagramaSelecionado.render();
+	}
+	
+	public void deselecionarTodos() {
+		for(int i=0; i< this.diagramaSelecionado.getNodes().size(); i++) {
+			this.diagramaSelecionado.getNodes().get(i).setSelected(false);
+		}
+		this.nodesSelecionados.clear();
+		this.diagramaSelecionado.render();
+	}
 }

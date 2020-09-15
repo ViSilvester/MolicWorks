@@ -13,12 +13,9 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -31,28 +28,21 @@
           <items>
             <MenuItem mnemonicParsing="false" onAction="#novoProjeto" text="Novo" />
             <MenuItem mnemonicParsing="false" onAction="#abrir" text="Abrir" />
-            <Menu mnemonicParsing="false" text="Abrir Recente" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#salvar" text="Salvar" />
             <MenuItem mnemonicParsing="false" onAction="#salvarComo" text="Salvar como" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Encerrar" />
+            <MenuItem mnemonicParsing="false" onAction="#encerrar" text="Encerrar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Editar">
           <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
+            <MenuItem mnemonicParsing="false" onAction="#copiar" text="Copiar" />
+            <MenuItem mnemonicParsing="false" onAction="#colar" text="Colar" />
+            <MenuItem mnemonicParsing="false" onAction="#excluir" text="Excluir" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" onAction="#selecionarTodos" text="Selecionar todos" />
+            <MenuItem mnemonicParsing="false" onAction="#deselecionarTodos" text="Deselecionar todos" />
           </items>
         </Menu>
             <Menu mnemonicParsing="false" text="Ferramentas">
@@ -60,41 +50,21 @@
                 <MenuItem mnemonicParsing="false" onAction="#exportarDiagrama" text="Exportar diagramas" />
               </items>
             </Menu>
-        <Menu mnemonicParsing="false" text="Ajuda">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.22044088176352705, 0.811623246492986" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.14807872539831302, 0.8537956888472352" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox prefHeight="200.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TitledPane animated="false" collapsible="false" minHeight="150.0" text="Ferramentas">
+                        <TitledPane>
                            <content>
-                              <GridPane>
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <FlowPane>
                                  <children>
-                                    <Button fx:id="ferramenta_selecao" mnemonicParsing="false" text="Seleção" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Button mnemonicParsing="false" text="Mover" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Button mnemonicParsing="false" text="Escalar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Button fx:id="ferramenta_selecao" mnemonicParsing="false" text="Selecionar" />
                                  </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </GridPane>
+                              </FlowPane>
                            </content>
                         </TitledPane>
                         <TitledPane text="Nodes">

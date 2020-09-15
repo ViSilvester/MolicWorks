@@ -108,6 +108,22 @@ public class TextBox implements Serializable{
 	public void setxRelativo(int xRelativo) {
 		this.xRelativo = xRelativo;
 	}
+	
+	public int getX() {
+		return posx;
+	}
+
+	public void setX(int x) {
+		this.posx = x;
+	}
+	
+	public int getY() {
+		return posy;
+	}
+
+	public void setY(int y) {
+		this.posy = y;
+	}
 
 	public int getyRelativo() {
 		return yRelativo;

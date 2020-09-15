@@ -103,7 +103,7 @@ public class MainController {
             MenuItem exibir = new MenuItem("Exibir");
             exibir.setOnAction(e ->{ 
             	this.exibirDiagrama(this.displayDiagramas.getSelectionModel().getSelectedItem());
-            	System.out.println("Buscando Diagrama "+ this.displayDiagramas.getSelectionModel().getSelectedItem());
+            	//System.out.println("Buscando Diagrama "+ this.displayDiagramas.getSelectionModel().getSelectedItem());
             	});
                     
           
@@ -167,7 +167,7 @@ public class MainController {
 		
 		NodeFactory factory = new NodeFactory();
 		
-		for (int i = 0; i<11; i++) {
+		for (int i = 0; i<12; i++) {
 			
 			//botoes para adicionar nodes
 			//instacia elemento
@@ -222,15 +222,13 @@ public class MainController {
 		MenuItem excluir = new MenuItem("Excluir");
 		
 		excluir.setOnAction(e->{this.projeto.ExcluirNode(); this.clearDetalhes();});
-		cm.getItems().addAll(copiar, colar, excluir);
-		
 		copiar.setOnAction(e ->{this.projeto.copiar();
 			
 		});
-		
 		colar.setOnAction(e ->{this.projeto.colar();
-		
 		});
+		
+		cm.getItems().addAll(copiar, colar, excluir);
 		
 		
 		
@@ -239,7 +237,20 @@ public class MainController {
 		canvas.setOnMouseClicked(e->{projeto.OnCanvasClicked(e); cm.hide();});
 		canvas.setOnMouseDragged(e->{projeto.onCanvasDragged(e);});
 		canvas.setOnMouseReleased(e->{projeto.onCanvasMouseReleased(e);});
-		canvas.setOnContextMenuRequested(e -> cm.show(canvas, e.getScreenX(), e.getScreenY()));
+		canvas.setOnContextMenuRequested(e -> {
+			if(!this.projeto.getNodesSelecionados().isEmpty()) {
+				excluir.setVisible(true);
+				copiar.setVisible(true);
+				colar.setVisible(true);
+				cm.show(canvas, e.getScreenX(), e.getScreenY());
+			}
+			else if(!this.projeto.getNodesCopiados().isEmpty()){
+				excluir.setVisible(false);
+				copiar.setVisible(false);
+				colar.setVisible(true);
+				cm.show(canvas, e.getScreenX(), e.getScreenY());
+			}
+			});
 		canvas.setOnMouseMoved(e->{projeto.onCanvasMoved(e);});
 		
 		
@@ -457,13 +468,9 @@ public class MainController {
 							+ "O projeto esta corrompido");
 					alert.showAndWait();
 					break;
-					
 				}
 		});
-
 	}
-	
-	
 	public void excluirDiagrama(String nome) {
 		projeto.excluirDiagrama(nome);
 		for(int i=0; i< displayTabs.getTabs().size(); i++) {
@@ -494,7 +501,31 @@ public class MainController {
 		dialog.show();
 	}
 	
+	public void copiar() {
+		this.projeto.copiar();
+	}
+	
+	public void colar() {
+		this.projeto.colar();
+	}
+	
+	public void excluir() {
+		this.projeto.ExcluirNode();
+	}
+	
+	public void selecionarTodos() {
+		this.projeto.selecionarTodos();
+	}
+	
+	public void deselecionarTodos() {
+		this.projeto.deselecionarTodos();
+	}
+	
 	public Projeto getProjeto() {
 		return this.projeto;
+	}
+	
+	public void encerrar() {
+		System.exit(0);
 	}
 }
